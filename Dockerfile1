@@ -1,0 +1,10 @@
+FROM maven:3.10.0-eclipse-temurin-17 AS build 
+ADD ./app
+WORKDIR /app
+RUN mvn package 
+
+FROM eclipse-temurin:25  AS runtime
+COPY --from=build /app/*.jar /devops/v-prof.jar
+WORKDIR /devops
+CMD ["java","-jar","v-prof.jar"]
+EXPOSE 8080
