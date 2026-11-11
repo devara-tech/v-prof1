@@ -4,7 +4,7 @@ WORKDIR /app
 RUN mvn package -DskipTests
 
 FROM eclipse-temurin:25-jre AS runtime
-COPY --from=build /app/*.war /devops/v-prof.war
+COPY --from=build /target/*.war /devops/v-prof.war
 WORKDIR /devops
 CMD ["java","-war","v-prof.war"]
 EXPOSE 8080
