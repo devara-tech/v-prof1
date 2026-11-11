@@ -1,7 +1,7 @@
 FROM maven:3.10.0-eclipse-temurin-17 AS build 
 COPY . /app
 WORKDIR /app
-RUN mvn package -Dskiptest
+RUN mvn package -DskipTests
 
 FROM eclipse-temurin:25  AS runtime
 COPY --from=build /app/*.jar /devops/v-prof.jar
