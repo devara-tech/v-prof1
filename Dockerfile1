@@ -1,10 +1,10 @@
-FROM maven:3.10.0-eclipse-temurin-17 AS build 
-COPY . /app
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
-RUN mvn package -DskipTests
+COPY . .
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:25-jre AS runtime
-COPY --from=build app/target/*.war /devops/v-prof.war
+FROM eclipse-temurin:17-jre AS runtime
 WORKDIR /devops
-CMD ["java","-war","v-prof.war"]
+COPY --from=build /app/target/*.war v-prof.war
 EXPOSE 8080
+CMD ["java", "-jar", "v-prof.war"]
